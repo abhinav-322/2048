@@ -45,7 +45,7 @@ public class GameBoard {
 
     public GameBoard(int x, int y){
         try{
-            saveDataPath = System.getProperty("user.home") + "\\IdeaProjects\\2048\\SaveGames";
+            saveDataPath = System.getProperty("user.home") + "\\Documents" + "\\2048-SaveGame";
         }
         catch (Exception e){
             e.printStackTrace();

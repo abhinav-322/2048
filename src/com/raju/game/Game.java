@@ -1,21 +1,24 @@
 package com.raju.game;
 
+import com.raju.gui.GuiScreen;
+import com.raju.gui.MainMenuPanel;
+import com.raju.gui.PlayPanel;
+
 import javax.swing.JPanel;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 
-public class Game extends JPanel implements KeyListener, Runnable {
+public class Game extends JPanel implements KeyListener, MouseListener, MouseMotionListener, Runnable {
 
     private static final long serialVersionUID = 1L;
-    public static final int WIDTH = 500;
-    public static final int HEIGHT = 540;
+    public static final int WIDTH = 1080;
+    public static final int HEIGHT = 720;
     public static final Font main = new Font("Clear Sans", Font.CENTER_BASELINE, 28);
     private Thread game;
     private boolean running;
     private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
-    private GameBoard board;
+    private GuiScreen screen;
 
     private long startTime;
     private long elapsed;
@@ -25,12 +28,17 @@ public class Game extends JPanel implements KeyListener, Runnable {
         setFocusable(true);
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         addKeyListener(this);
+        addMouseListener(this);
+        addMouseMotionListener(this);
 
-        board = new GameBoard(WIDTH / 2 - GameBoard.BOARD_WIDTH / 2, HEIGHT - GameBoard.BOARD_HEIGHT - 10);
+        screen = GuiScreen.getInstance();
+        screen.add("Menu", new MainMenuPanel());
+        screen.add("Play", new PlayPanel());
+        screen.setCurrentPanel("Menu");
     }
 
     private void update(){
-        board.update();
+        screen.update();
         Keyboard.update();
     }
 
@@ -38,7 +46,7 @@ public class Game extends JPanel implements KeyListener, Runnable {
         Graphics2D g = (Graphics2D) image.getGraphics();
         g.setColor(Color.white);
         g.fillRect(0, 0, WIDTH, HEIGHT);
-        board.render(g);
+        screen.render(g);
         g.dispose();
 
         Graphics2D g2d = (Graphics2D) getGraphics();
@@ -121,5 +129,40 @@ public class Game extends JPanel implements KeyListener, Runnable {
     @Override
     public void keyReleased(KeyEvent e) {
         Keyboard.keyReleased(e);
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        screen.mousePressed(e);
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        screen.mouseReleased(e);
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        screen.mouseDragged(e);
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+        screen.mouseMoved(e);
     }
 }

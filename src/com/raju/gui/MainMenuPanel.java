@@ -2,6 +2,7 @@ package com.raju.gui;
 
 import com.raju.game.DrawUtils;
 import com.raju.game.Game;
+import com.raju.game.MyFrame;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -21,10 +22,12 @@ public class MainMenuPanel extends GuiPanel{
         super();
         GuiButton playButton = new GuiButton(Game.WIDTH / 2 - buttonWidth / 2, 220, buttonWidth, buttonHeight);
         GuiButton leaderboardButton = new GuiButton(Game.WIDTH / 2 - buttonWidth / 2, playButton.getY() + spacing, buttonWidth, buttonHeight);
-        GuiButton quitButton = new GuiButton(Game.WIDTH / 2 - buttonWidth / 2, leaderboardButton.getY() + spacing, buttonWidth, buttonHeight);
+        GuiButton signUp = new GuiButton(Game.WIDTH / 2 - buttonWidth / 2, leaderboardButton.getY() + spacing, buttonWidth, buttonHeight);
+        GuiButton quitButton = new GuiButton(Game.WIDTH / 2 - buttonWidth / 2, signUp.getY() + spacing, buttonWidth, buttonHeight);
 
         playButton.setText("Play");
         leaderboardButton.setText("Leaderboard");
+        signUp.setText("Signup");
         quitButton.setText("Quit");
 
         playButton.addActionListener(new ActionListener() {
@@ -41,6 +44,14 @@ public class MainMenuPanel extends GuiPanel{
             }
         });
 
+        signUp.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MyFrame f = new MyFrame();
+                f.show();
+            }
+        });
+
         quitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -50,6 +61,7 @@ public class MainMenuPanel extends GuiPanel{
 
         add(playButton);
         add(leaderboardButton);
+        add(signUp);
         add(quitButton);
     }
 

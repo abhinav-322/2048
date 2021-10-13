@@ -1,8 +1,12 @@
 // Java program to implement
 package com.raju.game;
+import com.raju.gui.db;
+
 import javax.swing.*;
         import java.awt.*;
         import java.awt.event.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 
 public class MyFrame
         extends JFrame
@@ -14,7 +18,7 @@ public class MyFrame
     private JLabel username;
     private JTextField tname;
     private JLabel email;
-    private JTextField tmno;
+    private JTextField tmail;
     private JLabel password;
     private JPasswordField pass;
     private JLabel add;
@@ -25,8 +29,11 @@ public class MyFrame
     private JTextArea tout;
     private JLabel res;
     private JTextArea resadd;
+    Connection con = null;
     public MyFrame()
     {
+        con= db.dbconnect();
+
         setTitle("Registration Form");
         setBounds(700, 350, 500, 400);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -59,11 +66,11 @@ public class MyFrame
         email.setLocation(100, 150);
         c.add(email);
 
-        tmno = new JTextField();
-        tmno.setFont(new Font("Arial", Font.PLAIN, 15));
-        tmno.setSize(150, 20);
-        tmno.setLocation(200, 150);
-        c.add(tmno);
+        tmail = new JTextField();
+        tmail.setFont(new Font("Arial", Font.PLAIN, 15));
+        tmail.setSize(150, 20);
+        tmail.setLocation(200, 150);
+        c.add(tmail);
 
         password = new JLabel("Password");
         password.setFont(new Font("Arial", Font.BOLD, 20));
@@ -81,7 +88,28 @@ public class MyFrame
         sub.setFont(new Font("Arial", Font.PLAIN, 15));
         sub.setSize(100, 20);
         sub.setLocation(150, 250);
-        sub.addActionListener(this);
+        sub.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    String uname = tname.getText();
+                    String mail = tmail.getText();
+                    String passwordd = pass.getText();
+
+                    PreparedStatement pst= con.prepareStatement("insert into signup(Username,Email,Password) values(?,?,?);");
+                    pst.setString(1, uname);
+                    pst.setString(2, mail);
+                    pst.setString(3, passwordd);
+                    pst.executeUpdate();
+
+                    JOptionPane.showMessageDialog(null, "data added");
+                }
+                catch(Exception e1) {
+                    System.out.println(e1);
+                }
+
+            }
+        });
         c.add(sub);
 
         reset = new JButton("Reset");
@@ -112,7 +140,7 @@ public class MyFrame
                         = "Username : "
                         + tname.getText() + "\n"
                         + "Email : "
-                        + tmno.getText() + "\n"
+                        + tmail.getText() + "\n"
                         + "Password : "
                         + pass.getPassword() + "\n";
                 tout.setEditable(false);
@@ -130,7 +158,7 @@ public class MyFrame
             String def = "";
             tname.setText(def);
             tadd.setText(def);
-            tmno.setText(def);
+            tmail.setText(def);
             res.setText(def);
             tout.setText(def);
             term.setSelected(false);
@@ -138,12 +166,3 @@ public class MyFrame
         }
     }
 }
-
-//// Driver Code
-//class Registration {
-//
-//    public static void main(String[] args) throws Exception
-//    {
-//        MyFrame f = new MyFrame();
-//    }
-//}

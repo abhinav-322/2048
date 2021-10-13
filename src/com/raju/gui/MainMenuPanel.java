@@ -4,9 +4,11 @@ import com.raju.game.DrawUtils;
 import com.raju.game.Game;
 import com.raju.game.MyFrame;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.*;
 
 public class MainMenuPanel extends GuiPanel{
 
@@ -17,6 +19,9 @@ public class MainMenuPanel extends GuiPanel{
     private int buttonWidth = 220;
     private int buttonHeight = 60;
     private int spacing = 90;
+    Connection con = null;
+    boolean found = false;
+    boolean fndtab = false;
 
     public MainMenuPanel(){
         super();
@@ -24,11 +29,15 @@ public class MainMenuPanel extends GuiPanel{
         GuiButton leaderboardButton = new GuiButton(Game.WIDTH / 2 - buttonWidth / 2, playButton.getY() + spacing, buttonWidth, buttonHeight);
         GuiButton signUp = new GuiButton(Game.WIDTH / 2 - buttonWidth / 2, leaderboardButton.getY() + spacing, buttonWidth, buttonHeight);
         GuiButton quitButton = new GuiButton(Game.WIDTH / 2 - buttonWidth / 2, signUp.getY() + spacing, buttonWidth, buttonHeight);
+        GuiButton dbbutton = new GuiButton(Game.WIDTH  - buttonWidth , Game.HEIGHT - buttonHeight , buttonWidth, buttonHeight);
 
+        con= db.dbconnect();
         playButton.setText("Play");
         leaderboardButton.setText("Leaderboard");
         signUp.setText("Signup");
         quitButton.setText("Quit");
+        dbbutton.setText("Developer Options");
+
 
         playButton.addActionListener(new ActionListener() {
             @Override
@@ -59,10 +68,73 @@ public class MainMenuPanel extends GuiPanel{
             }
         });
 
+        dbbutton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    PreparedStatement sd= con.prepareStatement("show databases;");
+                    ResultSet rs=sd.executeQuery();
+
+                    while(rs.next()) {
+
+                        if(rs.getString(1).equals("signup_2048")) {
+                            JOptionPane.showMessageDialog(null, "database already exists, using it");
+                            found = true;
+                            break;
+                        }
+//                        else {
+//                            PreparedStatement psd= con.prepareStatement("create database signup_2048;");
+//                            psd.execute();
+//
+//                        }
+//                        if(rs.getString(1).equals("mysql")) {
+//                            System.out.println("found");
+//                            break;
+//                        }
+//                        else {
+//                            System.out.println("error");
+//                        }
+                    }
+                    if(!found) {
+                        PreparedStatement psd= con.prepareStatement("create database signup_2048;");
+                        psd.execute();
+                    }
+
+                    PreparedStatement psu= con.prepareStatement("use signup_2048;");
+                    psu.execute();
+                    PreparedStatement st=con.prepareStatement("show tables;");
+                    ResultSet rst=st.executeQuery();
+                    while(rst.next()) {
+
+                        if(rst.getString(1).equals("signup")) {
+                            JOptionPane.showMessageDialog(null, "table already exists, using it");
+                            fndtab = true;
+                            break;
+                        }
+                    }
+                    if(!fndtab) {
+                        PreparedStatement pst=con.prepareStatement("create table signup(Username varchar(255) not null,Email varchar(255) primary key not null,Password varchar(255) not null);");
+                        pst.executeUpdate();
+                    }
+
+//
+
+
+                    JOptionPane.showMessageDialog(null, "database and table created");
+
+                }
+                catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+
         add(playButton);
         add(leaderboardButton);
         add(signUp);
         add(quitButton);
+        add(dbbutton);
+
     }
 
     @Override
@@ -71,8 +143,11 @@ public class MainMenuPanel extends GuiPanel{
         g.setFont(titleFont);
         g.setColor(Color.black);
         g.drawString(title, Game.WIDTH / 2 - DrawUtils.getMessageWidth(title, titleFont, g) / 2, 150);
-
         g.setFont(creatorFont);
         g.drawString(creator, 20, Game.HEIGHT - 10);
     }
+
+
+
+
 }

@@ -42,7 +42,7 @@ public class MainMenuPanel extends GuiPanel{
         playButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GuiScreen.getInstance().setCurrentPanel("Play");
+                GuiScreen.getInstance().setCurrentPanel("GameMode");
             }
         });
 

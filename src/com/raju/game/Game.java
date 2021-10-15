@@ -1,8 +1,6 @@
 package com.raju.game;
 
-import com.raju.gui.GuiScreen;
-import com.raju.gui.MainMenuPanel;
-import com.raju.gui.PlayPanel;
+import com.raju.gui.*;
 
 import javax.swing.JPanel;
 import java.awt.*;
@@ -34,6 +32,8 @@ public class Game extends JPanel implements KeyListener, MouseListener, MouseMot
         screen = GuiScreen.getInstance();
         screen.add("Menu", new MainMenuPanel());
         screen.add("Play", new PlayPanel());
+        screen.add("GameMode",new GameModePanel());
+        screen.add("Difficulty",new DifficultyPanel());
         screen.setCurrentPanel("Menu");
     }
 

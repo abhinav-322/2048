@@ -1,6 +1,7 @@
 // Java program to implement
 package com.raju.gui;
 import com.raju.game.Game;
+import com.raju.game.Leaderboards;
 import com.raju.gui.db;
 
 import javax.swing.*;
@@ -78,15 +79,6 @@ public class Login
         sub.setFont(new Font("Arial", Font.PLAIN, 15));
         sub.setSize(100, 20);
         sub.setLocation(190, 225);
-        GuiButton login = new GuiButton(Game.WIDTH / 2 - buttonWidth / 2, 250, buttonWidth, buttonHeight);
-        login.setText("Login");
-        login.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Login log = new Login();
-                log.show();
-            }
-        });
 
         sub.addActionListener(new ActionListener() {
             @Override
@@ -100,10 +92,14 @@ public class Login
                     pst.setString(2, pwd);
                     ResultSet r=pst.executeQuery();
                     if(r.next()) {
-                        GuiScreen.getInstance().setCurrentPanel("Play");
-                        System.out.println("Login button clicked");
-                        Login login = new Login();
-                        login.dispose();
+//                        GuiScreen.getInstance().setCurrentPanel("Play");
+//                        System.out.println("Login button clicked");
+//                        Login login = new Login();
+                        GameModePanel d= new GameModePanel();
+                        d.setVisible(true);
+//                        frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+                        setVisible(false);
+                        dispose();
                     }
                     else {
                         JOptionPane.showMessageDialog(null, "incorrect username or password");
@@ -116,7 +112,7 @@ public class Login
             }
         });
         c.add(sub);
-        add(login);
+//        add(login);
 
         setVisible(true);
     }

@@ -165,4 +165,9 @@ public class MyFrame
             resadd.setText(def);
         }
     }
+
+//    public void paint(Graphics g) {
+//        g.setColor(Color.BLACK);
+////        g.drawString("Applet background example", 0, 50);
+//    }
 }

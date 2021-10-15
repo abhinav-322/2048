@@ -1,5 +1,5 @@
 // Java program to implement
-package com.raju.game;
+package com.raju.gui;
 import com.raju.gui.db;
 
 import javax.swing.*;

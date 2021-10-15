@@ -17,7 +17,7 @@ public class Game extends JPanel implements KeyListener, MouseListener, MouseMot
     public static final Font main = new Font("Clear Sans", Font.CENTER_BASELINE, 28);
     private Thread game;
     private boolean running;
-    private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+    public BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
     private GuiScreen screen;
 
     private long startTime;

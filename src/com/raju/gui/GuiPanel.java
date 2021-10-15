@@ -55,4 +55,8 @@ public class GuiPanel {
             b.mouseMoved(e);
         }
     }
+
+    public void setVisible(boolean b) {
+        GuiScreen.getInstance().setCurrentPanel("Play");
+    }
 }

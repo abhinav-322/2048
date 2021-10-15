@@ -2,7 +2,6 @@ package com.raju.gui;
 
 import com.raju.game.DrawUtils;
 import com.raju.game.Game;
-import com.raju.game.MyFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,13 +27,15 @@ public class MainMenuPanel extends GuiPanel{
         GuiButton playButton = new GuiButton(Game.WIDTH / 2 - buttonWidth / 2, 220, buttonWidth, buttonHeight);
         GuiButton leaderboardButton = new GuiButton(Game.WIDTH / 2 - buttonWidth / 2, playButton.getY() + spacing, buttonWidth, buttonHeight);
         GuiButton signUp = new GuiButton(Game.WIDTH / 2 - buttonWidth / 2, leaderboardButton.getY() + spacing, buttonWidth, buttonHeight);
-        GuiButton quitButton = new GuiButton(Game.WIDTH / 2 - buttonWidth / 2, signUp.getY() + spacing, buttonWidth, buttonHeight);
+        GuiButton login = new GuiButton(Game.WIDTH / 2 - buttonWidth / 2, signUp.getY() + spacing, buttonWidth, buttonHeight);
+        GuiButton quitButton = new GuiButton(Game.WIDTH / 2 - buttonWidth / 2, login.getY() + spacing, buttonWidth, buttonHeight);
         GuiButton dbbutton = new GuiButton(Game.WIDTH  - buttonWidth , Game.HEIGHT - buttonHeight , buttonWidth, buttonHeight);
 
         con= db.dbconnect();
         playButton.setText("Play");
         leaderboardButton.setText("Leaderboard");
         signUp.setText("Signup");
+        login.setText("Login");
         quitButton.setText("Quit");
         dbbutton.setText("Developer Options");
 
@@ -61,6 +62,14 @@ public class MainMenuPanel extends GuiPanel{
             }
         });
 
+        login.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Login log = new Login();
+                log.show();
+            }
+        });
+
         quitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -82,18 +91,6 @@ public class MainMenuPanel extends GuiPanel{
                             found = true;
                             break;
                         }
-//                        else {
-//                            PreparedStatement psd= con.prepareStatement("create database signup_2048;");
-//                            psd.execute();
-//
-//                        }
-//                        if(rs.getString(1).equals("mysql")) {
-//                            System.out.println("found");
-//                            break;
-//                        }
-//                        else {
-//                            System.out.println("error");
-//                        }
                     }
                     if(!found) {
                         PreparedStatement psd= con.prepareStatement("create database signup_2048;");
@@ -134,6 +131,7 @@ public class MainMenuPanel extends GuiPanel{
         add(signUp);
         add(quitButton);
         add(dbbutton);
+        add(login);
 
     }
 

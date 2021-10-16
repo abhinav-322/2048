@@ -57,6 +57,6 @@ public class GuiPanel {
     }
 
     public void setVisible(boolean b) {
-        GuiScreen.getInstance().setCurrentPanel("Play");
+        GuiScreen.getInstance().setCurrentPanel("GameMode");
     }
 }

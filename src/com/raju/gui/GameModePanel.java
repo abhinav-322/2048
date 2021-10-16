@@ -29,21 +29,21 @@ public class GameModePanel extends GuiPanel {
         classicButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GuiScreen.getInstance().setCurrentPanel("");
+                GuiScreen.getInstance().setCurrentPanel("Difficulty");
             }
         });
 
         countdownButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GuiScreen.getInstance().setCurrentPanel("");
+                GuiScreen.getInstance().setCurrentPanel("Difficulty");
             }
         });
 
         survivalButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GuiScreen.getInstance().setCurrentPanel("");
+                GuiScreen.getInstance().setCurrentPanel("Difficulty");
             }
         });
 

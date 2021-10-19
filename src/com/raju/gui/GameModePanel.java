@@ -9,6 +9,11 @@ import java.awt.event.ActionListener;
 
 public class GameModePanel extends GuiPanel {
 
+    public static boolean classicboolean = false;
+    public static boolean countdownboolean = false;
+    public static boolean survivalboolean = false;
+
+
     private Font titleFont = Game.main.deriveFont(80f);
     private String title = "GAME MODES";
     private int buttonWidth = 220;
@@ -30,6 +35,7 @@ public class GameModePanel extends GuiPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 GuiScreen.getInstance().setCurrentPanel("Difficulty");
+                classicboolean = true;
             }
         });
 
@@ -37,6 +43,7 @@ public class GameModePanel extends GuiPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 GuiScreen.getInstance().setCurrentPanel("Difficulty");
+                countdownboolean = true;
             }
         });
 
@@ -44,6 +51,7 @@ public class GameModePanel extends GuiPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 GuiScreen.getInstance().setCurrentPanel("Difficulty");
+                survivalboolean = true;
             }
         });
 

@@ -12,6 +12,9 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
+import static com.raju.gui.GameModePanel.classicboolean;
+import static com.raju.gui.GameModePanel.countdownboolean;
+
 public class PlayPanel extends GuiPanel{
 
     private GameBoard board;
@@ -86,14 +89,18 @@ public class PlayPanel extends GuiPanel{
         g2d.setColor(Color.white);
         g2d.fillRect(0, 0 , info.getWidth(), info.getHeight());
         g2d.setColor(Color.lightGray);
-        g2d.setFont(scoreFont);
-        g2d.drawString("" + scores.getCurrentScore(), 30, 40);
-        g2d.setColor(Color.red);
-        g2d.drawString("Best: " + scores.getCurrentTopScore(),
-                Game.WIDTH - DrawUtils.getMessageWidth("Best: " + scores.getCurrentTopScore(), scoreFont, g2d) - 20, 40);
-        g2d.drawString("Fastest: " + bestTimeF,
-                Game.WIDTH - DrawUtils.getMessageWidth("Fastest: " + bestTimeF, scoreFont, g2d) - 20, 90);
-        g2d.drawString("Time: " + timeF, 30, 90);
+        if (classicboolean == true) {
+            g2d.setFont(scoreFont);
+            g2d.drawString("" + scores.getCurrentScore(), 30, 40);
+            g2d.setColor(Color.red);
+            g2d.drawString("Best: " + scores.getCurrentTopScore(),
+                    Game.WIDTH - DrawUtils.getMessageWidth("Best: " + scores.getCurrentTopScore(), scoreFont, g2d) - 20, 40);
+        }
+        if (countdownboolean == true ) {
+            g2d.drawString("Fastest: " + bestTimeF,
+                    Game.WIDTH - DrawUtils.getMessageWidth("Fastest: " + bestTimeF, scoreFont, g2d) - 20, 40);
+            g2d.drawString("Time: " + timeF, 30, 40);
+        }
         g2d.dispose();
         g.drawImage(info, 0, 0, null);
     }
@@ -136,7 +143,7 @@ public class PlayPanel extends GuiPanel{
             }
             screenshot = false;
         }
-        if(board.isDead()){
+        if(board.isDead() || board.isWon()){
             if(!added){
                 added = true;
                 add(mainMenu);

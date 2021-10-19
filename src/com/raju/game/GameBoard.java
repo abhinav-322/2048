@@ -15,7 +15,7 @@ public class GameBoard {
     private Tile[][] board;
 
     private boolean dead;
-    private boolean won;
+    public static boolean won;
 
     private BufferedImage gameBoard;
     private BufferedImage finalBoard;
@@ -355,7 +355,7 @@ public class GameBoard {
         for(int row = 0 ; row < ROWS ; row++){
             for(int col = 0 ; col < COLS ; col++){
                 if(board[row][col] == null) continue;
-                if(board[row][col].getValue() >= 2048) return true;
+                if(board[row][col].getValue() == 2048) return true;
             }
         }
         return false;

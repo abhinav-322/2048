@@ -23,8 +23,8 @@ public class DifficultyPanel extends GuiPanel {
 
 
         EasyButton.setText("Easy");
-        MediumButton.setText("Count Down");
-        HardButton.setText("Survival");
+        MediumButton.setText("Medium");
+        HardButton.setText("Hard");
 
         EasyButton.addActionListener(new ActionListener() {
             @Override

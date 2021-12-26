@@ -87,7 +87,7 @@ public class Login
                 try {
                     String user = tname.getText();
                     String pwd = pass.getText();
-                    PreparedStatement pst = con.prepareStatement("select * from signup where Username=? and Password=?;");
+                    PreparedStatement pst = con.prepareStatement("select * from signup3 where Username=? and Password=?;");
                     pst.setString(1, user);
                     pst.setString(2, pwd);
                     ResultSet r=pst.executeQuery();

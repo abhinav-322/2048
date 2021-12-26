@@ -96,7 +96,7 @@ public class MyFrame
                     String mail = tmail.getText();
                     String passwordd = pass.getText();
 
-                    PreparedStatement pst= con.prepareStatement("insert into signup(Username,Email,Password) values(?,?,?);");
+                    PreparedStatement pst= con.prepareStatement("insert into signup3(Username,Email,Password) values(?,?,?);");
                     pst.setString(1, uname);
                     pst.setString(2, mail);
                     pst.setString(3, passwordd);
@@ -171,3 +171,12 @@ public class MyFrame
 ////        g.drawString("Applet background example", 0, 50);
 //    }
 }
+
+
+//    CREATE TABLE IF NOT EXISTS Signup(
+//        ID INT NOT NULL,
+//        PRIMARY KEY(ID),
+//    Username VARCHAR(255),
+//    Email VARCHAR(255),
+//
+//);

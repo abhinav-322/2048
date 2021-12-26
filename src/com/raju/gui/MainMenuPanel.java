@@ -103,14 +103,14 @@ public class MainMenuPanel extends GuiPanel{
                     ResultSet rst=st.executeQuery();
                     while(rst.next()) {
 
-                        if(rst.getString(1).equals("signup")) {
+                        if(rst.getString(1).equals("signup3")) {
                             JOptionPane.showMessageDialog(null, "table already exists, using it");
                             fndtab = true;
                             break;
                         }
                     }
                     if(!fndtab) {
-                        PreparedStatement pst=con.prepareStatement("create table signup(Username varchar(255) not null,Email varchar(255) primary key not null,Password varchar(255) not null);");
+                        PreparedStatement pst=con.prepareStatement("create table signup3(Username varchar(255) not null,Email varchar(255) primary key not null,Password varchar(255) not null);");
                         pst.executeUpdate();
                     }
 

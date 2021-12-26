@@ -77,60 +77,60 @@ public class MainMenuPanel extends GuiPanel{
             }
         });
 
-        dbbutton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    PreparedStatement sd= con.prepareStatement("show databases;");
-                    ResultSet rs=sd.executeQuery();
-
-                    while(rs.next()) {
-
-                        if(rs.getString(1).equals("signup_2048")) {
-                            JOptionPane.showMessageDialog(null, "database already exists, using it");
-                            found = true;
-                            break;
-                        }
-                    }
-                    if(!found) {
-                        PreparedStatement psd= con.prepareStatement("create database signup_2048;");
-                        psd.execute();
-                    }
-
-                    PreparedStatement psu= con.prepareStatement("use signup_2048;");
-                    psu.execute();
-                    PreparedStatement st=con.prepareStatement("show tables;");
-                    ResultSet rst=st.executeQuery();
-                    while(rst.next()) {
-
-                        if(rst.getString(1).equals("signup3")) {
-                            JOptionPane.showMessageDialog(null, "table already exists, using it");
-                            fndtab = true;
-                            break;
-                        }
-                    }
-                    if(!fndtab) {
-                        PreparedStatement pst=con.prepareStatement("create table signup3(Username varchar(255) not null,Email varchar(255) primary key not null,Password varchar(255) not null);");
-                        pst.executeUpdate();
-                    }
-
+//        dbbutton.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                try {
+//                    PreparedStatement sd= con.prepareStatement("show databases;");
+//                    ResultSet rs=sd.executeQuery();
 //
-
-
-                    JOptionPane.showMessageDialog(null, "database and table created");
-
-                }
-                catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        });
+//                    while(rs.next()) {
+//
+//                        if(rs.getString(1).equals("signup_2048")) {
+//                            JOptionPane.showMessageDialog(null, "database already exists, using it");
+//                            found = true;
+//                            break;
+//                        }
+//                    }
+//                    if(!found) {
+//                        PreparedStatement psd= con.prepareStatement("create database signup_2048;");
+//                        psd.execute();
+//                    }
+//
+//                    PreparedStatement psu= con.prepareStatement("use signup_2048;");
+//                    psu.execute();
+//                    PreparedStatement st=con.prepareStatement("show tables;");
+//                    ResultSet rst=st.executeQuery();
+//                    while(rst.next()) {
+//
+//                        if(rst.getString(1).equals("signup3")) {
+//                            JOptionPane.showMessageDialog(null, "table already exists, using it");
+//                            fndtab = true;
+//                            break;
+//                        }
+//                    }
+//                    if(!fndtab) {
+//                        PreparedStatement pst=con.prepareStatement("create table signup3(Username varchar(255) not null,Email varchar(255) primary key not null,Password varchar(255) not null);");
+//                        pst.executeUpdate();
+//                    }
+//
+////
+//
+//
+//                    JOptionPane.showMessageDialog(null, "database and table created");
+//
+//                }
+//                catch (SQLException ex) {
+//                    ex.printStackTrace();
+//                }
+//            }
+//        });
 
         add(playButton);
         add(leaderboardButton);
         add(signUp);
         add(quitButton);
-        add(dbbutton);
+//        add(dbbutton);
         add(login);
 
     }

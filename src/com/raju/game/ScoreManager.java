@@ -2,6 +2,7 @@ package com.raju.game;
 
 import java.io.*;
 
+
 public class ScoreManager {
 
     //Current Scores
@@ -81,14 +82,14 @@ public class ScoreManager {
             File f = new File(filePath, temp);
             output = new FileWriter(f);
             BufferedWriter writer = new BufferedWriter(output);
-            writer.write("" + currentScore);
-            writer.newLine();
-            writer.write("" + currentTopScore);
-            writer.newLine();
-            writer.write("" + time);
-            writer.newLine();
-            writer.write("" + bestTime);
-            writer.newLine();
+                writer.write("" + currentScore);
+                writer.newLine();
+                writer.write("" + currentTopScore);
+                writer.newLine();
+                writer.write("" + time);
+                writer.newLine();
+                writer.write("" + bestTime);
+                writer.newLine();
 
             for(int row = 0 ; row < GameBoard.ROWS ; row++){
                 for(int col = 0 ; col < GameBoard.COLS ; col++){
@@ -121,12 +122,11 @@ public class ScoreManager {
             }
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(f)));
-            currentScore = Integer.parseInt(reader.readLine());
-            currentTopScore = Integer.parseInt(reader.readLine());
-            time = Long.parseLong(reader.readLine());
-            startingTime = time;
-            bestTime = Long.parseLong(reader.readLine());
-
+                currentScore = Integer.parseInt(reader.readLine());
+                currentTopScore = Integer.parseInt(reader.readLine());
+                time = Long.parseLong(reader.readLine());
+                startingTime = time;
+                bestTime = Long.parseLong(reader.readLine());
             String[] board = reader.readLine().split("-");
             for(int i = 0 ; i < board.length ; i++){
                 this.board[i] = Integer.parseInt(board[i]);

@@ -14,7 +14,7 @@ public class MainMenuPanel extends GuiPanel{
     private Font titleFont = Game.main.deriveFont(100f);
     private Font creatorFont = Game.main.deriveFont(18f);
     private String title = "2048";
-    private String creator = "By Raju";
+    private String creator = "By Raju, Baburao and Shyam";
     private int buttonWidth = 220;
     private int buttonHeight = 60;
     private int spacing = 90;
@@ -77,6 +77,7 @@ public class MainMenuPanel extends GuiPanel{
             }
         });
 
+        //developers option
 //        dbbutton.addActionListener(new ActionListener() {
 //            @Override
 //            public void actionPerformed(ActionEvent e) {

@@ -34,7 +34,7 @@ public class GameModePanel extends GuiPanel {
         classicButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GuiScreen.getInstance().setCurrentPanel("Play");
+                GuiScreen.getInstance().setCurrentPanel("ClassicPlay");
                 classicboolean = true;
                 countdownboolean = false;
                 survivalboolean = false;

@@ -6,19 +6,19 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.Random;
 
-public class GameBoard {
+public class ClassicGameBoard {
 
     public static final int ROWS = 4;
     public static final int COLS = 4;
 
     private final int startingTiles = 2;
-    private Tile[][] board;
-//    private Tile[][] classicboard;
+//    private Tile[][] board;
+    private Tile[][] classicboard;
 
     private boolean dead;
     public static boolean won;
 
-    private BufferedImage gameBoard;
+    private BufferedImage classicgameBoard;
     private BufferedImage finalBoard;
     private int x;
     private int y;
@@ -39,33 +39,33 @@ public class GameBoard {
     private String saveDataPath;
     private String fileName = "SaveData";
 
-    private ScoreManager scores;
-    private Leaderboards lBoard;
+    private ClassicScoreManager classicscores;
+    private ClassicLeaderboards lcBoard;
 
-    public GameBoard(int x, int y){
+    public ClassicGameBoard(int x, int y){
         this.x = x;
         this.y = y;
-        board = new Tile[ROWS][COLS];
-//        classicboard = new Tile[ROWS][COLS];
-        gameBoard = new BufferedImage(BOARD_WIDTH, BOARD_HEIGHT, BufferedImage.TYPE_INT_RGB);
+//        board = new Tile[ROWS][COLS];
+        classicboard = new Tile[ROWS][COLS];
+        classicgameBoard = new BufferedImage(BOARD_WIDTH, BOARD_HEIGHT, BufferedImage.TYPE_INT_RGB);
         finalBoard = new BufferedImage(BOARD_WIDTH, BOARD_HEIGHT, BufferedImage.TYPE_INT_RGB);
 
         createBoardImage();
 
-        lBoard = Leaderboards.getInstance();
-        lBoard.loadScores();
-        scores = new ScoreManager(this);
-        scores.loadGame();
-        scores.setBestTime(lBoard.getFastestTime());
-        scores.setCurrentTopScore(lBoard.getHighScore());
-        if(scores.newGame()){
+        lcBoard = ClassicLeaderboards.getInstance();
+        lcBoard.loadClassicScores();
+        classicscores = new ClassicScoreManager(this);
+        classicscores.loadGame();
+        classicscores.setBestTime(lcBoard.getFastestTime());
+        classicscores.setClassiccurrentTopScore(lcBoard.getClassichighScore());
+        if(classicscores.newGame()){
             start();
-            scores.saveGame();
+            classicscores.saveGame();
         }
         else{
-            for(int i = 0 ; i < scores.getBoard().length ; i++){
-                if(scores.getBoard()[i] == 0) continue;
-                spawn(i / ROWS, i % COLS, scores.getBoard()[i]);
+            for(int i = 0 ; i < classicscores.getBoard().length ; i++){
+                if(classicscores.getBoard()[i] == 0) continue;
+                spawn(i / ROWS, i % COLS, classicscores.getBoard()[i]);
             }
 
             dead = checkDead();
@@ -74,10 +74,10 @@ public class GameBoard {
     }
 
     public void reset(){
-        board = new Tile[ROWS][COLS];
+        classicboard = new Tile[ROWS][COLS];
 //        classicboard = new Tile[ROWS][COLS];
         start();
-        scores.saveGame();
+        classicscores.saveGame();
         dead = false;
         won = false;
         hasStarted = false;
@@ -87,7 +87,7 @@ public class GameBoard {
     }
 
     private void createBoardImage(){
-        Graphics2D g = (Graphics2D) gameBoard.getGraphics();
+        Graphics2D g = (Graphics2D) classicgameBoard.getGraphics();
         g.setColor(new Color(0x776e65));
         g.fillRoundRect(0, 0, BOARD_WIDTH, BOARD_HEIGHT, BOARD_ARC_WIDTH, BOARD_ARC_HEIGHT);
         g.setColor(new Color(0xbbada0));
@@ -109,7 +109,7 @@ public class GameBoard {
     }
 
     private void spawn(int row, int col, int value){
-        board[row][col] = new Tile(value, getTileX(col), getTileY(row));
+        classicboard[row][col] = new Tile(value, getTileX(col), getTileY(row));
     }
 
     private void spawnRandom(){
@@ -119,11 +119,11 @@ public class GameBoard {
         while(notValid){
             int row = random.nextInt(ROWS);
             int col = random.nextInt(COLS);
-            Tile current = board[row][col];
-            if(current == null){
+            Tile classiccurrent = classicboard[row][col];
+            if(classiccurrent == null){
                 int value = random.nextInt(10) < 8 ? 2 : 4;
                 Tile tile = new Tile(value, getTileX(col), getTileY(row));
-                board[row][col] = tile;
+                classicboard[row][col] = tile;
                 notValid = false;
             }
         }
@@ -139,13 +139,13 @@ public class GameBoard {
 
     public void render(Graphics2D g){
         Graphics2D g2d = (Graphics2D) finalBoard.getGraphics();
-        g2d.drawImage(gameBoard, 0, 0, null);
+        g2d.drawImage(classicgameBoard, 0, 0, null);
 
         for(int row = 0; row < ROWS ; row++){
             for(int col = 0 ; col < COLS ; col++){
-                Tile current = board[row][col];
-                if(current == null) continue;
-                current.render(g2d);
+                Tile classiccurrent = classicboard[row][col];
+                if(classiccurrent == null) continue;
+                classiccurrent.render(g2d);
             }
         }
 
@@ -157,12 +157,12 @@ public class GameBoard {
         saveCount++;
         if(saveCount >= 120){
             saveCount = 0;
-            scores.saveGame();
+            classicscores.saveGame();
         }
         if(!won && !dead){
             if(hasStarted){
                 elapsedMS = (System.nanoTime() - startTime) / 1000000;
-                scores.setTime(elapsedMS);
+                classicscores.setTime(elapsedMS);
             }
             else {
                 startTime = System.nanoTime();
@@ -171,59 +171,59 @@ public class GameBoard {
 
         checkKeys();
 
-        if(scores.getCurrentScore() >= scores.getCurrentTopScore()){
-            scores.setCurrentTopScore(scores.getCurrentScore());
+        if(classicscores.getClassiccurrentScore() >= classicscores.getClassiccurrentTopScore()){
+            classicscores.setClassiccurrentTopScore(classicscores.getClassiccurrentScore());
         }
 
         for(int row = 0 ; row < ROWS ; row++){
             for(int col = 0 ; col < COLS ; col++){
-                Tile current = board[row][col];
-                if(current == null) continue;
-                current.update();
-                resetPosition(current, row, col);
-                if(current.getValue() == 2048){
+                Tile classiccurrent = classicboard[row][col];
+                if(classiccurrent == null) continue;
+                classiccurrent.update();
+                resetPosition(classiccurrent, row, col);
+                if(classiccurrent.getValue() == 2048){
                     setWon(true);
                 }
             }
         }
     }
 
-    private void resetPosition(Tile current, int row, int col){
-        if(current == null) return;
+    private void resetPosition(Tile classiccurrent, int row, int col){
+        if(classiccurrent == null) return;
 
         int x = getTileX(col);
         int y = getTileY(row);
 
-        int distX = current.getX() - x;
-        int distY = current.getY() - y;
+        int distX = classiccurrent.getX() - x;
+        int distY = classiccurrent.getY() - y;
 
         if(Math.abs(distX) < Tile.SLIDE_SPEED){
-            current.setX(current.getX() - distX);
+            classiccurrent.setX(classiccurrent.getX() - distX);
         }
 
         if(Math.abs(distY) < Tile.SLIDE_SPEED){
-            current.setY(current.getY() - distY);
+            classiccurrent.setY(classiccurrent.getY() - distY);
         }
 
         if(distX < 0){
-            current.setX(current.getX() + Tile.SLIDE_SPEED);
+            classiccurrent.setX(classiccurrent.getX() + Tile.SLIDE_SPEED);
         }
         if(distY < 0){
-            current.setY(current.getY() + Tile.SLIDE_SPEED);
+            classiccurrent.setY(classiccurrent.getY() + Tile.SLIDE_SPEED);
         }
         if(distX > 0){
-            current.setX(current.getX() - Tile.SLIDE_SPEED);
+            classiccurrent.setX(classiccurrent.getX() - Tile.SLIDE_SPEED);
         }
         if(distY > 0){
-            current.setY(current.getY() - Tile.SLIDE_SPEED);
+            classiccurrent.setY(classiccurrent.getY() - Tile.SLIDE_SPEED);
         }
     }
 
     private boolean move(int row, int col, int horizontalDirection, int verticalDirection, Direction dir){
         boolean canMove = false;
 
-        Tile current = board[row][col];
-        if(current == null) return false;
+        Tile classiccurrent = classicboard[row][col];
+        if(classiccurrent == null) return false;
         boolean move = true;
         int newCol = col;
         int newRow = row;
@@ -231,20 +231,20 @@ public class GameBoard {
             newCol += horizontalDirection;
             newRow += verticalDirection;
             if(checkOutOfBounds(dir, newRow, newCol)) break;
-            if(board[newRow][newCol] == null){
-                board[newRow][newCol] = current;
-                board[newRow - verticalDirection][newCol - horizontalDirection] = null;
-                board[newRow][newCol].setSlideTo(new Point(newRow, newCol));
+            if(classicboard[newRow][newCol] == null){
+                classicboard[newRow][newCol] = classiccurrent;
+                classicboard[newRow - verticalDirection][newCol - horizontalDirection] = null;
+                classicboard[newRow][newCol].setSlideTo(new Point(newRow, newCol));
                 canMove = true;
             }
-            else if(board[newRow][newCol].getValue() == current.getValue() && board[newRow][newCol].canCombine()){
-                board[newRow][newCol].setCanCombine(false);
-                board[newRow][newCol].setValue(board[newRow][newCol].getValue() * 2);
+            else if(classicboard[newRow][newCol].getValue() == classiccurrent.getValue() && classicboard[newRow][newCol].canCombine()){
+                classicboard[newRow][newCol].setCanCombine(false);
+                classicboard[newRow][newCol].setValue(classicboard[newRow][newCol].getValue() * 2);
                 canMove = true;
-                board[newRow - verticalDirection][newCol - horizontalDirection] = null;
-                board[newRow][newCol].setSlideTo(new Point(newRow, newCol));
-                board[newRow][newCol].setCombineAnimation(true);
-                scores.setCurrentScore(scores.getCurrentScore() + board[newRow][newCol].getValue());
+                classicboard[newRow - verticalDirection][newCol - horizontalDirection] = null;
+                classicboard[newRow][newCol].setSlideTo(new Point(newRow, newCol));
+                classicboard[newRow][newCol].setCombineAnimation(true);
+                classicscores.setClassiccurrentScore(classicscores.getClassiccurrentScore() + classicboard[newRow][newCol].getValue());
             }
             else{
                 move = false;
@@ -329,9 +329,9 @@ public class GameBoard {
 
         for(int row = 0 ; row < ROWS ; row++){
             for(int col = 0 ; col<COLS ; col++){
-                Tile current = board[row][col];
-                if(current == null) continue;
-                current.setCanCombine(true);
+                Tile classiccurrent = classicboard[row][col];
+                if(classiccurrent == null) continue;
+                classiccurrent.setCanCombine(true);
             }
         }
 
@@ -344,8 +344,8 @@ public class GameBoard {
     private boolean checkDead(){
         for(int row = 0 ; row < ROWS ; row++){
             for(int col = 0 ; col < COLS ; col++){
-                if(board[row][col] == null) return false;
-                boolean canCombine = checkSurroundingTiles(row, col, board[row][col]);
+                if(classicboard[row][col] == null) return false;
+                boolean canCombine = checkSurroundingTiles(row, col, classicboard[row][col]);
                 if(canCombine){
                     return false;
                 }
@@ -357,33 +357,33 @@ public class GameBoard {
     private boolean checkWon(){
         for(int row = 0 ; row < ROWS ; row++){
             for(int col = 0 ; col < COLS ; col++){
-                if(board[row][col] == null) continue;
-                if(board[row][col].getValue() == 2048) return true;
+                if(classicboard[row][col] == null) continue;
+                if(classicboard[row][col].getValue() == 2048) return true;
             }
         }
         return false;
     }
 
-    private boolean checkSurroundingTiles(int row, int col, Tile current){
+    private boolean checkSurroundingTiles(int row, int col, Tile classiccurrent){
         if(row > 0){
-            Tile check = board[row - 1][col];
+            Tile check = classicboard[row - 1][col];
             if(check == null) return true;
-            if(current.getValue() == check.getValue()) return true;
+            if(classiccurrent.getValue() == check.getValue()) return true;
         }
         if(row < ROWS - 1){
-            Tile check = board[row + 1][col];
+            Tile check = classicboard[row + 1][col];
             if(check == null) return true;
-            if(current.getValue() == check.getValue()) return true;
+            if(classiccurrent.getValue() == check.getValue()) return true;
         }
         if(col > 0){
-            Tile check = board[row][col - 1];
+            Tile check = classicboard[row][col - 1];
             if(check == null) return true;
-            if(current.getValue() == check.getValue()) return true;
+            if(classiccurrent.getValue() == check.getValue()) return true;
         }
         if(col < COLS - 1){
-            Tile check = board[row][col + 1];
+            Tile check = classicboard[row][col + 1];
             if(check == null) return true;
-            if(current.getValue() == check.getValue()) return true;
+            if(classiccurrent.getValue() == check.getValue()) return true;
         }
         return false;
     }
@@ -411,9 +411,9 @@ public class GameBoard {
         int value = 2;
         for(int row = 0 ; row < ROWS ; row++){
             for(int col = 0 ; col < COLS ; col++){
-                if(board[row][col] == null) continue;
-                if(board[row][col].getValue() > value){
-                    value = board[row][col].getValue();
+                if(classicboard[row][col] == null) continue;
+                if(classicboard[row][col].getValue() > value){
+                    value = classicboard[row][col].getValue();
                 }
             }
         }
@@ -426,9 +426,9 @@ public class GameBoard {
 
     public void setDead(boolean dead){
         if(!this.dead && dead){
-            lBoard.addTile(getHighestTileValue());
-            lBoard.addScore(scores.getCurrentScore());
-            lBoard.saveScores();
+            lcBoard.addTile(getHighestTileValue());
+            lcBoard.addScore(classicscores.getClassiccurrentScore());
+            lcBoard.saveClassicScores();
         }
         this.dead = dead;
     }
@@ -439,18 +439,18 @@ public class GameBoard {
 
     public void setWon(boolean won){
         if(!this.won && won){
-            lBoard.addTime(scores.getTime());
-            lBoard.saveScores();
+            lcBoard.addTime(classicscores.getTime());
+            lcBoard.saveClassicScores();
         }
         this.won = won;
     }
 
-    public ScoreManager getScores(){
-        return scores;
+    public ClassicScoreManager getScores(){
+        return classicscores;
     }
 
     public Tile[][] getBoard(){
-        return board;
+        return classicboard;
     }
 
     public int getX() {

@@ -50,7 +50,7 @@ public class MainMenuPanel extends GuiPanel{
         leaderboardButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GuiScreen.getInstance().setCurrentPanel("Leaderboard");
+                GuiScreen.getInstance().setCurrentPanel("LeaderBoard");
             }
         });
 

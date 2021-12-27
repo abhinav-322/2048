@@ -4,6 +4,7 @@ import com.raju.game.DrawUtils;
 import com.raju.game.Game;
 import com.raju.game.GameBoard;
 import com.raju.game.ScoreManager;
+import com.raju.game.Leaderboards;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -20,6 +21,7 @@ public class PlayPanel extends GuiPanel{
     private GameBoard board;
     private BufferedImage info;
     private ScoreManager scores;
+    private Leaderboards highScores;
     private Font scoreFont;
     private String timeF;
     private String bestTimeF;
@@ -116,7 +118,7 @@ public class PlayPanel extends GuiPanel{
     @Override
     public void update(){
         board.update();
-        if(board.isDead()){
+        if(board.isDead() || board.isWon()){
             alpha++;
             if(alpha > 170){
                 alpha = 170;

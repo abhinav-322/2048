@@ -121,7 +121,7 @@ public class GameBoard {
             int col = random.nextInt(COLS);
             Tile current = board[row][col];
             if(current == null){
-                int value = random.nextInt(10) < 8 ? 2 : 4;
+                int value = random.nextInt(10) < 8 ? 128 : 256;
                 Tile tile = new Tile(value, getTileX(col), getTileY(row));
                 board[row][col] = tile;
                 notValid = false;
